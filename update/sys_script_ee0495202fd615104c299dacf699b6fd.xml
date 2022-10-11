@@ -30,14 +30,13 @@
         <script><![CDATA[(function executeRule(current, previous /*null when async*/) {
 
 	// Add your code here
-	// rightnow stores the current time
-  var rightnow = new GlideDateTime();
-  // Create a GlideDateTime object for the When needed date
-  var whenNeeded = new GlideDateTime(current.u_when_needed);
+// Instantiate the NeedItUtils class.  Call the isDatePast method and pass 
+  // the u_when_needed value.
+  var niutils = new NeedItUtils();
+  var isPast = niutils.isDatePast(current.u_when_needed);
   
-  // If the When needed date is before rightnow, do not write the record to the database
-  // Output an error message to the screen
-  if(whenNeeded.before(rightnow)){
+  // If the isDatePast method returns true, the date is in the past.
+  if(isPast == true){
     gs.addErrorMessage("When needed date cannot be in the past.  Your request has not been saved to the database.");
     current.setAbortAction(true);
   }
